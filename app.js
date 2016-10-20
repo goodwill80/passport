@@ -8,9 +8,19 @@ var morgan = require("morgan");
 var mongoose = require("mongoose");
 var app = express();
 
+//Setup Mongoose database
+//***********************
+mongoose.connect("", function(err){
+  if(err) {
+    console.log(err);
+  } else {
+    console.log("Mongoose has successfully connected to database!");
+  }
+});
+
 app.get("/", function(req, res, next){
   res.render("home");
-})
+});
 
 //setting up middlewares to link our libraries
 //********************************************
