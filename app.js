@@ -2,6 +2,7 @@
 var express = require("express");
 var ejs = require("ejs");
 var engine = require("ejs-mate");
+var morgan = require("morgan");
 var app = express();
 
 app.get("/", function(req, res, next){
@@ -9,7 +10,13 @@ app.get("/", function(req, res, next){
 })
 
 //setting up middlewares to link our libraries
+//********************************************
+
+//setting up morgan to log all status of user request (200, 300, 400) in terminal shell
+app.use(morgan('dev'));
+//setup to allow express to access into the public folder (CSS, JS)
 app.use(express.static(__dirname + "/public"));
+//allow express to render views
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
 
