@@ -23,6 +23,7 @@ var UserSchema = new Schema({
 //"pre" before we want to save, we need to do something to it
 UserSchema.pre("save", function(next){
   var user = this;
+  user.name = "Guest";
   if(!user.isModified('password')) return next();
   //if no error bcrypt to generate 10 different data
   bcrypt.genSalt(10, function(err, salt){
@@ -36,8 +37,14 @@ UserSchema.pre("save", function(next){
   });
 });
 
+// UserSchema.pre("save", function(next){
+//   var user = this;
+//   user.name = "handsome";
+// })
+
 
 //* compare password in the database and the one user entered
+//this is a custom method u create yourself - always start with UserSchema.methods.yourFunctionName
 UserSchema.methods.comparePassword = function(password){
   return bcrypt.compareSync(password, this.password);
 };
