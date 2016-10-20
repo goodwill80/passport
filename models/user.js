@@ -48,3 +48,6 @@ UserSchema.pre("save", function(next){
 UserSchema.methods.comparePassword = function(password){
   return bcrypt.compareSync(password, this.password);
 };
+
+//To make schema model available to all of app
+module.exports = mongoose.model('User', UserSchema);
