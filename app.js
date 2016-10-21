@@ -4,9 +4,12 @@
 var express = require("express");
 var ejs = require("ejs");
 var engine = require("ejs-mate");
+var bodyParser = require("body-parser");
 var morgan = require("morgan");
 var mongoose = require("mongoose");
+var User = require('./models/user');
 var app = express();
+
 
 //Setup Mongoose database
 //***********************
@@ -18,13 +21,15 @@ mongoose.connect("mongodb://root:abc123@ds063546.mlab.com:63546/passportdoc", fu
   }
 });
 
-app.get("/", function(req, res, next){
-  res.render("home");
-});
-
 //setting up middlewares to link our libraries
 //********************************************
 
+//for express to parse json data format
+app.use(bodyParser.json());
+//Setting up bodyParser for data to be transmitted to html via http //or whatever you want your server to receive
+app.use(bodyParser.urlencoded({
+   extended: true
+ }));
 //setting up morgan to log all status of user request (200, 300, 400) in terminal shell
 app.use(morgan('dev'));
 //setup to allow express to access into the public folder (CSS, JS)
@@ -32,6 +37,24 @@ app.use(express.static(__dirname + "/public"));
 //allow express to render views
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
+
+//Testing of User Schema
+//**********************
+
+app.post("/users", function(req, res, next){
+  var user = new User();
+  user.profile.name = req.body.name;
+  user.password = req.body.password;
+  user.email = req.body.email;
+
+  user.save(function(err){
+    if(err) return next(err);
+    res.json("You have successfully created a new user!");
+  });
+});
+
+
+
 
 
 //server

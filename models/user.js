@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 //bcrypt is a lib to hash the password
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcrypt-nodejs");
 var Schema = mongoose.Schema;
 
 //*user schema attributes / charectoristics / fields*/
@@ -29,13 +29,17 @@ UserSchema.pre("save", function(next){
   bcrypt.genSalt(10, function(err, salt){
     if(err) return next(err);
   //then pass bcrypt function to user password by hashing it
-    bcrypt.hash(user.password, salt, null, function(err, hash){
-      if(err) return next(err);
-      user.password = hash;
-      next();
+  bcrypt.hash(user.password, salt, null, function(err, hash) {
+        if (err) return next(err);
+        user.password = hash;
+        next();
     });
   });
 });
+
+// UserSchema.statics.encrypt = function(password) {
+//   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+// };
 
 // UserSchema.pre("save", function(next){
 //   var user = this;
@@ -48,6 +52,7 @@ UserSchema.pre("save", function(next){
 UserSchema.methods.comparePassword = function(password){
   return bcrypt.compareSync(password, this.password);
 };
+
 
 //To make schema model available to all of app
 module.exports = mongoose.model('User', UserSchema);
