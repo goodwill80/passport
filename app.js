@@ -10,7 +10,7 @@ var app = express();
 
 //Setup Mongoose database
 //***********************
-mongoose.connect("", function(err){
+mongoose.connect("mongodb://root:abc123@ds063546.mlab.com:63546/passportdoc", function(err){
   if(err) {
     console.log(err);
   } else {
