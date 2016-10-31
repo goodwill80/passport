@@ -10,7 +10,7 @@ var mongoose = require("mongoose");
 var session = require("express-session");
 var cookieParser = require("cookie-parser");
 var flash = require("express-flash");
-var MongoStore = require("connect-mongo")(session);
+var MongoStore = require("connect-mongo/es5")(session);
 var passport = require("passport");
 var secret = require("./config/secret");
 var User = require('./models/user');
@@ -49,6 +49,8 @@ app.use(bodyParser.urlencoded({
    store: new MongoStore({ url: secret.database, autoReconnect: true })
  }));
  app.use(flash());
+ app.use(passport.initialize());
+ app.use(passport.session());
 //allow express to render views
 app.engine("ejs", engine);
 app.set("view engine", "ejs");

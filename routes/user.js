@@ -1,8 +1,28 @@
 var router = require("express").Router();
 var User = require('../models/user');
+var passport = require("passport");
+var passportConf = require("../config/passport");
 
-//Testing of User Schema
-//**********************
+
+
+//get route for login
+router.get('/login', function(req, res) {
+  if (req.user) return res.redirect('/');
+  res.render('accounts/login', { message: req.flash('loginMessage')});
+});
+
+//post route for login
+router.post('/login', passport.authenticate('local-login', {
+  successRedirect: '/profile',
+  failureRedirect: '/login',
+  failureFlash: true
+}));
+
+//get route for profile page after login
+router.get('/profile', function(req, res){
+  res.json(req.user);
+})
+
 
 //get route for signup
 router.get("/signup", function(req, res, next){
