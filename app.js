@@ -10,13 +10,14 @@ var mongoose = require("mongoose");
 var session = require("express-session");
 var cookieParser = require("cookie-parser");
 var flash = require("express-flash");
+var secret = require("./config/secret");
 var User = require('./models/user');
 var app = express();
 
 
 //Setup Mongoose database
 //***********************
-mongoose.connect("mongodb://root:abc123@ds063546.mlab.com:63546/passportdoc", function(err){
+mongoose.connect(secret.database, function(err){
   if(err) {
     console.log(err);
   } else {
@@ -42,7 +43,7 @@ app.use(bodyParser.urlencoded({
  app.use(session({
    resave: true,
    saveUninitialized: true,
-   secret: "Projectx"
+   secret: secret.secretKey
  }));
  app.use(flash());
 //allow express to render views
@@ -56,7 +57,7 @@ app.use(mainRoute);
 app.use(userRoute);
 
 //server
-app.set('port', (process.env.PORT || 7000));
+app.set('port', (process.env.PORT || secret.port));
 
 app.listen(app.get('port'), function() {
   console.log('Server is running on port', app.get('port'));
