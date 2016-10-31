@@ -55,6 +55,12 @@ app.use(bodyParser.urlencoded({
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
 
+//makeing user/category object available in all templates hence no need to req.user.profile.name on every route and storing all of them in a local variable call locals
+ app.use(function(req, res, next){
+   res.locals.user = req.user;
+   next();
+ })
+
 //setting up of routers
 var mainRoute = require("./routes/main");
 var userRoute = require("./routes/user");

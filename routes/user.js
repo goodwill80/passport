@@ -26,6 +26,12 @@ router.get('/profile', function(req, res, next){
   });
 });
 
+//get route for logout
+router.get("/logout", function(req, res, next){
+  req.logout();
+  res.redirect("/");
+})
+
 
 //get route for signup
 router.get("/signup", function(req, res, next){
