@@ -19,9 +19,12 @@ router.post('/login', passport.authenticate('local-login', {
 }));
 
 //get route for profile page after login
-router.get('/profile', function(req, res){
-  res.json(req.user);
-})
+router.get('/profile', function(req, res, next){
+  User.findOne({ _id: req.user._id }, function(err, user){
+    if(err) return next(err);
+    res.render("accounts/profile", {user: user});
+  });
+});
 
 
 //get route for signup
