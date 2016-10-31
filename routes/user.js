@@ -4,10 +4,12 @@ var User = require('../models/user');
 //Testing of User Schema
 //**********************
 
+//get route for signup
 router.get("/signup", function(req, res, next){
-  res.render("accounts/signup");
+  res.render("accounts/signup", {errors: req.flash('errors')});
 })
 
+//post route for signup
 router.post('/signup', function(req, res, next){
   var user = new User();
 
@@ -17,12 +19,12 @@ router.post('/signup', function(req, res, next){
 
   User.findOne({ email: req.body.email }, function(err, existingUser){
     if(existingUser) {
-      console.log(req.body.email + "already exist");
+      req.flash("errors", "Account with the email address already exist");
       return res.redirect('/signup');
     } else {
       user.save(function(err, user){
         if (err) return next(err);
-        res.json("New User has been created!");
+        return res.redirect('/');
       });
     }
   });
