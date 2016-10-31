@@ -8,7 +8,7 @@ var passportConf = require("../config/passport");
 //get route for login
 router.get('/login', function(req, res) {
   if (req.user) return res.redirect('/');
-  res.render('accounts/login', { message: req.flash('loginMessage')});
+  res.render('accounts/login', { message: req.flash('errorMessage')});
 });
 
 //post route for login
