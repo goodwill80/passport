@@ -37,30 +37,11 @@ app.use(morgan('dev'));
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
 
-//Testing of User Schema
-//**********************
-
-app.post("/users", function(req, res, next){
-  var user = new User();
-  user.profile.name = req.body.name;
-  user.password = req.body.password;
-  user.email = req.body.email;
-
-  user.save(function(err){
-    if(err) return next(err);
-    res.json("You have successfully created a new user!");
-  });
-});
-
-app.get("/", function(req, res){
-  res.render('main/home');
-})
-
-app.get("/about", function(req, res){
-  res.render('main/about');
-})
-
-
+//setting up of routers
+var mainRoute = require("./routes/main");
+var userRoute = require("./routes/user");
+app.use(mainRoute);
+app.use(userRoute);
 
 //server
 app.set('port', (process.env.PORT || 7000));
