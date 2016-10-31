@@ -23,7 +23,8 @@ mongoose.connect("mongodb://root:abc123@ds063546.mlab.com:63546/passportdoc", fu
 
 //setting up middlewares to link our libraries
 //********************************************
-
+//setup to allow express to access into the public folder (CSS, JS)
+app.use(express.static(__dirname + "/public"));
 //for express to parse json data format
 app.use(bodyParser.json());
 //Setting up bodyParser for data to be transmitted to html via http //or whatever you want your server to receive
@@ -32,8 +33,6 @@ app.use(bodyParser.urlencoded({
  }));
 //setting up morgan to log all status of user request (200, 300, 400) in terminal shell
 app.use(morgan('dev'));
-//setup to allow express to access into the public folder (CSS, JS)
-app.use(express.static(__dirname + "/public"));
 //allow express to render views
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
