@@ -37,9 +37,6 @@ UserSchema.pre("save", function(next){
   });
 });
 
-// UserSchema.statics.encrypt = function(password) {
-//   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-// };
 
 // UserSchema.pre("save", function(next){
 //   var user = this;

@@ -53,7 +53,13 @@ app.post("/users", function(req, res, next){
   });
 });
 
+app.get("/", function(req, res){
+  res.render('main/home');
+})
 
+app.get("/about", function(req, res){
+  res.render('main/about');
+})
 
 
 
